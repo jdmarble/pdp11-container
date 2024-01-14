@@ -1,0 +1,30 @@
+FROM docker.io/library/debian:12.4-slim as builder
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update \
+ && apt-get install -y --no-install-recommends \
+ build-essential=12.9 \
+ ca-certificates=20230311 \
+ git=1:2.39.2-1.1 \
+ sudo=1.9.13p3-1+deb12u1
+ # Not removing cache here because the deps.sh script can use it.
+ # The cache will not be in the final stage of the image anyway.
+
+RUN mkdir /simh \
+ && git clone --depth 1 https://github.com/open-simh/simh.git /simh \
+ && /simh/.travis/deps.sh linux \
+ && /simh/cmake/cmake-builder.sh --novideo --noinstall --parallel --target pdp11
+
+FROM docker.io/library/debian:12.4-slim
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update \
+ && apt-get install -y --no-install-recommends \
+ libvdeplug2=4.0.1-4 \
+ libpcre3=2:8.39-15 \
+ libedit2=3.1-20221030-2 \
+ libbsd0=0.11.7-2 \
+ libmd0=1.0.4-2 \
+ ncurses-base=6.4-4 \
+ && rm -rf /var/lib/apt/lists/*
+
+COPY --from=builder /simh/BIN/pdp11 /bin/pdp11
+CMD ["/bin/pdp11"]

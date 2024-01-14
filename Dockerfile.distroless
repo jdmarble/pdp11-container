@@ -23,6 +23,7 @@ COPY --from=builder /usr/lib/x86_64-linux-gnu/libedit.so.2 /usr/lib/x86_64-linux
 COPY --from=builder /usr/lib/x86_64-linux-gnu/libbsd.so.0 /usr/lib/x86_64-linux-gnu/libbsd.so.0
 COPY --from=builder /usr/lib/x86_64-linux-gnu/libtinfo.so.6 /usr/lib/x86_64-linux-gnu/libtinfo.so.6
 COPY --from=builder /usr/lib/x86_64-linux-gnu/libmd.so.0 /usr/lib/x86_64-linux-gnu/libmd.so.0
+COPY --from=builder /lib/terminfo /lib/terminfo
 
 COPY --from=builder /simh/BIN/pdp11 /bin/pdp11
 ENTRYPOINT ["/bin/pdp11"]
