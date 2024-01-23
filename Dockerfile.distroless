@@ -15,7 +15,7 @@ RUN mkdir /simh \
  && /simh/cmake/cmake-builder.sh --novideo --noinstall --parallel --target pdp11
 
 # FROM gcr.io/distroless/base-debian12:nonroot
-FROM gcr.io/distroless/base-debian12@sha256:684dee415923cb150793530f7997c96b3cef006c868738a2728597773cf27359
+FROM gcr.io/distroless/base-debian12@sha256:0a93daa199e7c6e387cea8cf03fac676146735caf6965d276d86ebd3a441f27e
 
 COPY --from=builder /usr/lib/x86_64-linux-gnu/libvdeplug.so.2 /usr/lib/x86_64-linux-gnu/libvdeplug.so.2
 COPY --from=builder /lib/x86_64-linux-gnu/libpcre.so.3 /lib/x86_64-linux-gnu/libpcre.so.3
