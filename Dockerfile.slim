@@ -1,4 +1,4 @@
-FROM docker.io/library/debian:12.6-slim as builder
+FROM docker.io/library/debian:12.8-slim as builder
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update \
  && apt-get install -y --no-install-recommends \
@@ -14,7 +14,7 @@ RUN mkdir /simh \
  && /simh/.travis/deps.sh linux \
  && /simh/cmake/cmake-builder.sh --novideo --noinstall --parallel --target pdp11
 
-FROM docker.io/library/debian:12.6-slim
+FROM docker.io/library/debian:12.8-slim
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update \
  && apt-get install -y --no-install-recommends \
